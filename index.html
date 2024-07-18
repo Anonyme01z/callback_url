@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Success</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .countdown {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Payment Successfully Made!</h2>
+    <p>Thank you for your payment.</p>
+    <div class="countdown" id="countdown">5</div>
+  </div>
+
+  <script>
+    // Countdown timer
+    let countdownElement = document.getElementById('countdown');
+    let countdownValue = 5;
+    
+    function countdown() {
+      countdownValue--;
+      countdownElement.textContent = countdownValue;
+      if (countdownValue <= 0) {
+        clearInterval(timer);
+        // Close the current tab after countdown
+        window.close();
+        // Redirect to the Botpress chat or webpage
+        window.location.href = 'https://your-botpress-instance-url'; // Replace with your Botpress URL
+      }
+    }
+
+    // Start countdown
+    let timer = setInterval(countdown, 1000);
+  </script>
+</body>
+</html>
