@@ -7,52 +7,90 @@
   <style>
     body {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       height: 100vh;
-      background-color: #f0f0f0;
       margin: 0;
-      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      overflow: hidden;
     }
-    .container {
-      text-align: center;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    h1 {
+      font-size: 2rem;
+      color: #28a745;
+      margin-bottom: 1rem;
     }
+
     .countdown {
-      font-size: 24px;
-      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .confetti {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #ff0;
+      transform: rotate(45deg);
+      opacity: 0;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Payment Successfully Made!</h2>
-    <p>Thank you for your payment.</p>
-    <div class="countdown" id="countdown">5</div>
-  </div>
+  <h1>Payment Successful!</h1>
+  <div class="countdown" id="countdown">Redirecting in 5 seconds...</div>
+  <div class="confetti" id="confetti"></div>
 
   <script>
-    // Countdown timer
-    let countdownElement = document.getElementById('countdown');
-    let countdownValue = 5;
-    
-    function countdown() {
-      countdownValue--;
-      countdownElement.textContent = countdownValue;
-      if (countdownValue <= 0) {
-        clearInterval(timer);
-        // Close the current tab after countdown
-        window.close();
-        // Redirect to the Botpress chat or webpage
-        window.location.href = 'https://your-botpress-instance-url'; // Replace with your Botpress URL
+    // Countdown logic
+    let countdown = 5;
+    const countdownElement = document.getElementById('countdown');
+
+    const interval = setInterval(() => {
+      countdown--;
+      countdownElement.textContent = `Redirecting in ${countdown} seconds...`;
+      if (countdown <= 0) {
+        clearInterval(interval);
+        window.location.href = 'https://mediafiles.botpress.cloud/948cb2a8-0b59-4172-977b-1d21cfe325be/webchat/bot.html';
       }
+    }, 1000);
+
+    // Confetti animation
+    function createConfettiPiece() {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.backgroundColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+      piece.style.left = `${Math.random() * 100}vw`;
+      piece.style.top = `${Math.random() * 100}vh`;
+      piece.style.width = `${Math.random() * 15 + 5}px`;
+      piece.style.height = piece.style.width;
+      document.getElementById('confetti').appendChild(piece);
+
+      setTimeout(() => {
+        piece.style.transition = 'transform 1s, opacity 1s';
+        piece.style.transform = `translateY(${Math.random() * 200 - 100}px)`;
+        piece.style.opacity = '0';
+      }, 10);
+
+      setTimeout(() => piece.remove(), 1000);
     }
 
-    // Start countdown
-    let timer = setInterval(countdown, 1000);
+    for (let i = 0; i < 100; i++) {
+      createConfettiPiece();
+    }
   </script>
 </body>
 </html>
